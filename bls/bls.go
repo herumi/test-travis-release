@@ -13,6 +13,8 @@ import "C"
 import (
 	"unsafe"
 )
+
+// 2
 const BLS12_381 = C.MCL_BLS12_381
 
 func Init(curve int) error {
