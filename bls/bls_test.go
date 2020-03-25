@@ -17,9 +17,6 @@ func testVerifyHashDomain(t *testing.T) {
 		secs[i].SetByCSPRNG()
 		pubs[i] = *secs[i].GetPublicKey()
 		sigs[i] = *secs[i].SignHashWithDomain(hd)
-		if !sigs[i].VerifyHashWithDomain(&pubs[i], hd) {
-			t.Fatalf("bad VerifyHashWithDomain %v", i)
-		}
 	}
 	var sig Sign
 	sig.Aggregate(sigs)

@@ -3,21 +3,15 @@ package bls
 /*
 #cgo CFLAGS:-I${SRCDIR}./include -DBLS_ETH -DBLS_SWAP_G
 #cgo LDFLAGS:-lbls384_256 -lstdc++ -lm
-#cgo ios LDFLAGS:-L${SRCDIR}/lib/ios
-#cgo android,arm64 LDFLAGS:-L${SRCDIR}/lib/android/arm64-v8a
-#cgo android,arm LDFLAGS:-L${SRCDIR}/lib/android/armeabi-v7a
-#cgo android,amd64 LDFLAGS:-L${SRCDIR}/lib/android/x86_64
 #cgo linux,amd64 LDFLAGS:-L${SRCDIR}/lib/linux/amd64
 #cgo linux,arm64 LDFLAGS:-L${SRCDIR}/lib/linux/arm64
 #cgo darwin,amd64 LDFLAGS:-L${SRCDIR}/lib/darwin/amd64
 #cgo darwin,arm64 LDFLAGS:-L${SRCDIR}/lib/darwin/arm64
-#cgo windows,amd64 LDFLAGS:-L${SRCDIR}/lib/windows/amd64
 #include <mcl/bn_c384_256.h>
 #include <bls/bls.h>
 */
 import "C"
 import (
-	"fmt"
 	"unsafe"
 )
 
@@ -25,13 +19,7 @@ import (
 // call this function before calling all the other operations
 // this function is not thread safe
 func Init(curve int) error {
-	if curve != C.MCL_BLS12_381 {
-		return fmt.Errorf("ERR only BLS12-381")
-	}
-	err := C.blsInit(C.int(curve), C.MCLBN_COMPILED_TIME_VAR)
-	if err != 0 {
-		return fmt.Errorf("ERR Init curve=%d", curve)
-	}
+	C.blsInit(C.int(curve), C.MCLBN_COMPILED_TIME_VAR)
 	return nil
 }
 
@@ -85,18 +73,6 @@ func (sec *SecretKey) SignHashWithDomain(hashWithDomain []byte) (sig *Sign) {
 		return sig
 	}
 	return nil
-}
-
-// VerifyHashWithDomain -- duplicated for mode > 0
-func (sig *Sign) VerifyHashWithDomain(pub *PublicKey, hashWithDomain []byte) bool {
-	if len(hashWithDomain) != 40 {
-		return false
-	}
-	if pub == nil {
-		return false
-	}
-	// #nosec
-	return C.blsVerifyHashWithDomain(&sig.v, &pub.v, (*C.uchar)(unsafe.Pointer(&hashWithDomain[0]))) == 1
 }
 
 // VerifyAggregateHashWithDomain -- duplicated for mode > 0
