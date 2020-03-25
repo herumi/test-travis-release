@@ -6,8 +6,45 @@
 	@license modified new BSD license
 	http://opensource.org/licenses/BSD-3-Clause
 */
+#include <stdint.h>
+#define MCLBN_FP_UNIT_SIZE 6
+#define MCLBN_FR_UNIT_SIZE 4
+#define MCL_BLS12_381 5
 #define MCLBN_NO_AUTOLINK
-//#include <mcl/bn.h>
+
+
+typedef struct {
+	uint64_t d[MCLBN_FP_UNIT_SIZE];
+} mclBnFp;
+
+/*
+	x = d[0] + d[1] i where i^2 = -1
+*/
+typedef struct {
+	mclBnFp d[2];
+} mclBnFp2;
+
+/*
+	G1 and G2 are isomorphism to Fr
+*/
+typedef struct {
+	uint64_t d[MCLBN_FR_UNIT_SIZE];
+} mclBnFr;
+
+/*
+	G1 is defined over Fp
+*/
+typedef struct {
+	mclBnFp x, y, z;
+} mclBnG1;
+
+typedef struct {
+	mclBnFp2 x, y, z;
+} mclBnG2;
+
+typedef struct {
+	mclBnFp d[12];
+} mclBnGT;
 
 #ifdef BLS_ETH
 	#ifndef BLS_SWAP_G

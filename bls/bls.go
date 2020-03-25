@@ -1,20 +1,19 @@
 package bls
 
 /*
-#cgo CFLAGS:-I${SRCDIR}./include -DBLS_ETH -DBLS_SWAP_G
+#cgo CFLAGS:-I${SRCDIR}./include -DBLS_ETH -DBLS_SWAP_G -I./include
 #cgo LDFLAGS:-lbls384_256 -lstdc++ -lm
 #cgo linux,amd64 LDFLAGS:-L${SRCDIR}/lib/linux/amd64
 #cgo linux,arm64 LDFLAGS:-L${SRCDIR}/lib/linux/arm64
 #cgo darwin,amd64 LDFLAGS:-L${SRCDIR}/lib/darwin/amd64
 #cgo darwin,arm64 LDFLAGS:-L${SRCDIR}/lib/darwin/arm64
-#include <mcl/bn_c384_256.h>
 #include <bls/bls.h>
 */
 import "C"
 import (
 	"unsafe"
 )
-
+const BLS12_381 = C.MCL_BLS12_381
 
 func Init(curve int) error {
 	C.blsInit(C.int(curve), C.MCLBN_COMPILED_TIME_VAR)
