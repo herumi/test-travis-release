@@ -2,8 +2,6 @@
 #include <stdint.h>
 #define MCLBN_FP_UNIT_SIZE 6
 #define MCLBN_FR_UNIT_SIZE 4
-#define MCL_BLS12_381 5
-#define MCLBN_NO_AUTOLINK
 
 typedef struct {
 	uint64_t d[MCLBN_FP_UNIT_SIZE];
@@ -24,9 +22,6 @@ typedef struct {
 typedef struct {
 	mclBnFp2 x, y, z;
 } mclBnG2;
-
-#define BLS_COMPILER_TIME_VAR_ADJ 200
-#define MCLBN_COMPILED_TIME_VAR ((MCLBN_FR_UNIT_SIZE) * 10 + (MCLBN_FP_UNIT_SIZE) + BLS_COMPILER_TIME_VAR_ADJ)
 
 #ifdef __cplusplus
 extern "C" {
