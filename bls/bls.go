@@ -28,9 +28,10 @@ type SecretKey struct {
 	v C.blsSecretKey
 }
 
+
 // SetByCSPRNG --
 func (sec *SecretKey) SetByCSPRNG() {
-	err := C.blsSecretKeySetByCSPRNG(&sec.v)
+	err :=  C.blsSecretKeySetByCSPRNG(&sec.v)
 	if err != 0 {
 		panic("err blsSecretKeySetByCSPRNG")
 	}
