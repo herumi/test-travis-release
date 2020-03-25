@@ -6,7 +6,6 @@ package bls
 #cgo linux,amd64 LDFLAGS:-L${SRCDIR}/lib/linux/amd64
 #cgo darwin,amd64 LDFLAGS:-L${SRCDIR}/lib/darwin/amd64
 #include <stdint.h>
-#include <stdlib.h>
 #define MCLBN_FP_UNIT_SIZE 6
 #define MCLBN_FR_UNIT_SIZE 4
 typedef struct {
@@ -52,7 +51,7 @@ import (
 	"unsafe"
 )
 
-// 9
+// 10
 
 func Init() error {
 	const BLS12_381 = 5
