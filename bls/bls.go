@@ -47,113 +47,6 @@ func Init(curve int) error {
 	return nil
 }
 
-// ID --
-type ID struct {
-	v C.blsId
-}
-
-// Serialize --
-func (id *ID) Serialize() []byte {
-	buf := make([]byte, 2048)
-	// #nosec
-	n := C.blsIdSerialize(unsafe.Pointer(&buf[0]), C.mclSize(len(buf)), &id.v)
-	if n == 0 {
-		panic("err blsIdSerialize")
-	}
-	return buf[:n]
-}
-
-// Deserialize --
-func (id *ID) Deserialize(buf []byte) error {
-	// #nosec
-	err := C.blsIdDeserialize(&id.v, unsafe.Pointer(&buf[0]), C.mclSize(len(buf)))
-	if err == 0 {
-		return fmt.Errorf("err blsIdDeserialize %x", buf)
-	}
-	return nil
-}
-
-// GetLittleEndian -- alias of Serialize
-func (id *ID) GetLittleEndian() []byte {
-	return id.Serialize()
-}
-
-// SetLittleEndian --
-func (id *ID) SetLittleEndian(buf []byte) error {
-	// #nosec
-	err := C.blsIdSetLittleEndian(&id.v, unsafe.Pointer(&buf[0]), C.mclSize(len(buf)))
-	if err != 0 {
-		return fmt.Errorf("err blsIdSetLittleEndian %x", err)
-	}
-	return nil
-}
-
-// SerializeToHexStr --
-func (id *ID) SerializeToHexStr() string {
-	return hex.EncodeToString(id.Serialize())
-}
-
-// DeserializeHexStr --
-func (id *ID) DeserializeHexStr(s string) error {
-	a, err := hex2byte(s)
-	if err != nil {
-		return err
-	}
-	return id.Deserialize(a)
-}
-
-// GetHexString --
-func (id *ID) GetHexString() string {
-	buf := make([]byte, 2048)
-	// #nosec
-	n := C.blsIdGetHexStr((*C.char)(unsafe.Pointer(&buf[0])), C.mclSize(len(buf)), &id.v)
-	if n == 0 {
-		panic("err blsIdGetHexStr")
-	}
-	return string(buf[:n])
-}
-
-// GetDecString --
-func (id *ID) GetDecString() string {
-	buf := make([]byte, 2048)
-	// #nosec
-	n := C.blsIdGetDecStr((*C.char)(unsafe.Pointer(&buf[0])), C.mclSize(len(buf)), &id.v)
-	if n == 0 {
-		panic("err blsIdGetDecStr")
-	}
-	return string(buf[:n])
-}
-
-// SetHexString --
-func (id *ID) SetHexString(s string) error {
-	buf := []byte(s)
-	// #nosec
-	err := C.blsIdSetHexStr(&id.v, (*C.char)(unsafe.Pointer(&buf[0])), C.mclSize(len(buf)))
-	if err != 0 {
-		return fmt.Errorf("err blsIdSetHexStr %s", s)
-	}
-	return nil
-}
-
-// SetDecString --
-func (id *ID) SetDecString(s string) error {
-	buf := []byte(s)
-	// #nosec
-	err := C.blsIdSetDecStr(&id.v, (*C.char)(unsafe.Pointer(&buf[0])), C.mclSize(len(buf)))
-	if err != 0 {
-		return fmt.Errorf("err blsIdSetDecStr %s", s)
-	}
-	return nil
-}
-
-// IsEqual --
-func (id *ID) IsEqual(rhs *ID) bool {
-	if id == nil || rhs == nil {
-		return false
-	}
-	return C.blsIdIsEqual(&id.v, &rhs.v) == 1
-}
-
 // SecretKey --
 type SecretKey struct {
 	v C.blsSecretKey
@@ -304,36 +197,6 @@ func GetMasterPublicKey(msk []SecretKey) (mpk []PublicKey) {
 	return mpk
 }
 
-// Set --
-func (sec *SecretKey) Set(msk []SecretKey, id *ID) error {
-	// #nosec
-	ret := C.blsSecretKeyShare(&sec.v, &msk[0].v, (C.mclSize)(len(msk)), &id.v)
-	if ret != 0 {
-		return fmt.Errorf("err blsSecretKeyShare")
-	}
-	return nil
-}
-
-// Recover --
-func (sec *SecretKey) Recover(secVec []SecretKey, idVec []ID) error {
-	if len(secVec) != len(idVec) {
-		return fmt.Errorf("err SecretKey.Recover bad size")
-	}
-	// #nosec
-	ret := C.blsSecretKeyRecover(&sec.v, &secVec[0].v, (*C.blsId)(&idVec[0].v), (C.mclSize)(len(idVec)))
-	if ret != 0 {
-		return fmt.Errorf("err blsSecretKeyRecover")
-	}
-	return nil
-}
-
-// GetPop --
-func (sec *SecretKey) GetPop() (sig *Sign) {
-	sig = new(Sign)
-	C.blsGetPop(&sig.v, &sec.v)
-	return sig
-}
-
 // PublicKey --
 type PublicKey struct {
 	v C.blsPublicKey
@@ -426,29 +289,6 @@ func (pub *PublicKey) Add(rhs *PublicKey) {
 	C.blsPublicKeyAdd(&pub.v, &rhs.v)
 }
 
-// Set --
-func (pub *PublicKey) Set(mpk []PublicKey, id *ID) error {
-	// #nosec
-	ret := C.blsPublicKeyShare(&pub.v, &mpk[0].v, (C.mclSize)(len(mpk)), &id.v)
-	if ret != 0 {
-		return fmt.Errorf("err blsPublicKeyShare")
-	}
-	return nil
-}
-
-// Recover --
-func (pub *PublicKey) Recover(pubVec []PublicKey, idVec []ID) error {
-	if len(pubVec) != len(idVec) {
-		return fmt.Errorf("err PublicKey.Recover bad size")
-	}
-	// #nosec
-	ret := C.blsPublicKeyRecover(&pub.v, &pubVec[0].v, (*C.blsId)(&idVec[0].v), (C.mclSize)(len(idVec)))
-	if ret != 0 {
-		return fmt.Errorf("err blsPublicKeyRecover")
-	}
-	return nil
-}
-
 // Sign  --
 type Sign struct {
 	v C.blsSignature
@@ -538,19 +378,6 @@ func (sec *SecretKey) Sign(m string) (sig *Sign) {
 // Add --
 func (sig *Sign) Add(rhs *Sign) {
 	C.blsSignatureAdd(&sig.v, &rhs.v)
-}
-
-// Recover --
-func (sig *Sign) Recover(sigVec []Sign, idVec []ID) error {
-	if len(sigVec) != len(idVec) {
-		return fmt.Errorf("err Sign.Recover bad size")
-	}
-	// #nosec
-	ret := C.blsSignatureRecover(&sig.v, &sigVec[0].v, (*C.blsId)(&idVec[0].v), (C.mclSize)(len(idVec)))
-	if ret != 0 {
-		return fmt.Errorf("err blsSignatureRecover")
-	}
-	return nil
 }
 
 // Verify --
