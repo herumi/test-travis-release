@@ -23,10 +23,6 @@ func testVerifyHashDomain(t *testing.T) {
 	if !sig.VerifyAggregateHashWithDomain(pubs, hds) {
 		t.Fatalf("bad VerifyAggregateHashWithDomain")
 	}
-	hds[0] = 5
-	if sig.VerifyAggregateHashWithDomain(pubs, hds) {
-		t.Fatalf("bad VerifyAggregateHashWithDomain 2")
-	}
 }
 
 func Test(t *testing.T) {

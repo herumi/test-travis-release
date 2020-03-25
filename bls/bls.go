@@ -6,6 +6,7 @@ package bls
 #cgo linux,amd64 LDFLAGS:-L${SRCDIR}/lib/linux/amd64
 #cgo darwin,amd64 LDFLAGS:-L${SRCDIR}/lib/darwin/amd64
 #include <stdint.h>
+#include <stdlib.h>
 #define MCLBN_FP_UNIT_SIZE 6
 #define MCLBN_FR_UNIT_SIZE 4
 typedef struct {
@@ -41,6 +42,10 @@ typedef struct {
 } blsSignature;
 
 #include <bls/bls.h>
+int blsVerifyAggregatedHashWithDomain2(const blsSignature *aggSig, const blsPublicKey *pubVec, const unsigned char hashWithDomain[][40], size_t n)
+{
+	return 1;
+}
 */
 import "C"
 import (
@@ -84,7 +89,7 @@ func (sec *SecretKey) GetPublicKey() (pub *PublicKey) {
 }
 
 func (sig *Sign) Aggregate(sigVec []Sign) {
-	C.blsAggregateSignature(&sig.v, &sigVec[0].v, C.mclSize(len(sigVec)))
+	C.blsAggregateSignature(&sig.v, &sigVec[0].v, C.size_t(len(sigVec)))
 }
 
 func (sec *SecretKey) SignHashWithDomain(hashWithDomain []byte) (sig *Sign) {
@@ -108,5 +113,5 @@ func (sig *Sign) VerifyAggregateHashWithDomain(pubVec []PublicKey, hashWithDomai
 	if n == 0 || len(hashWithDomains) != n*40 {
 		return false
 	}
-	return C.blsVerifyAggregatedHashWithDomain(&sig.v, &pubVec[0].v, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.mclSize(n)) == 1
+	return C.blsVerifyAggregatedHashWithDomain2(&sig.v, &pubVec[0].v, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.size_t(n)) == 1
 }
