@@ -12,15 +12,12 @@ package bls
 #cgo darwin,amd64 LDFLAGS:-L${SRCDIR}/lib/darwin/amd64
 #cgo darwin,arm64 LDFLAGS:-L${SRCDIR}/lib/darwin/arm64
 #cgo windows,amd64 LDFLAGS:-L${SRCDIR}/lib/windows/amd64
-typedef unsigned int (*ReadRandFunc)(void *, void *, unsigned int);
-int wrapReadRandCgo(void *self, void *buf, unsigned int n);
 #include <mcl/bn_c384_256.h>
 #include <bls/bls.h>
 */
 import "C"
 import (
 	"fmt"
-	"io"
 	"unsafe"
 )
 
@@ -74,35 +71,6 @@ func (sec *SecretKey) GetPublicKey() (pub *PublicKey) {
 // Aggregate --
 func (sig *Sign) Aggregate(sigVec []Sign) {
 	C.blsAggregateSignature(&sig.v, &sigVec[0].v, C.mclSize(len(sigVec)))
-}
-
-var sRandReader io.Reader
-
-func createSlice(buf *C.char, n C.uint) []byte {
-	size := int(n)
-	return (*[1 << 30]byte)(unsafe.Pointer(buf))[:size:size]
-}
-
-// this function can't be put in callback.go
-//export wrapReadRandGo
-func wrapReadRandGo(buf *C.char, n C.uint) C.uint {
-	slice := createSlice(buf, n)
-	ret, err := sRandReader.Read(slice)
-	if ret == int(n) && err == nil {
-		return n
-	}
-	return 0
-}
-
-// SetRandFunc --
-func SetRandFunc(randReader io.Reader) {
-	sRandReader = randReader
-	if randReader != nil {
-		C.blsSetRandFunc(nil, C.ReadRandFunc(unsafe.Pointer(C.wrapReadRandCgo)))
-	} else {
-		// use default random generator
-		C.blsSetRandFunc(nil, C.ReadRandFunc(unsafe.Pointer(nil)))
-	}
 }
 
 // SignHashWithDomain -- duplicated for mode > 0
