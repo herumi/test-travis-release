@@ -15,21 +15,16 @@ import (
 	"unsafe"
 )
 
-// Init --
-// call this function before calling all the other operations
-// this function is not thread safe
+
 func Init(curve int) error {
 	C.blsInit(C.int(curve), C.MCLBN_COMPILED_TIME_VAR)
 	return nil
 }
 
-// SecretKey --
 type SecretKey struct {
 	v C.blsSecretKey
 }
 
-
-// SetByCSPRNG --
 func (sec *SecretKey) SetByCSPRNG() {
 	err :=  C.blsSecretKeySetByCSPRNG(&sec.v)
 	if err != 0 {
@@ -37,32 +32,26 @@ func (sec *SecretKey) SetByCSPRNG() {
 	}
 }
 
-// PublicKey --
 type PublicKey struct {
 	v C.blsPublicKey
 }
 
-// PublicKeys ..
 type PublicKeys []PublicKey
 
-// Sign  --
 type Sign struct {
 	v C.blsSignature
 }
 
-// GetPublicKey --
 func (sec *SecretKey) GetPublicKey() (pub *PublicKey) {
 	pub = new(PublicKey)
 	C.blsGetPublicKey(&pub.v, &sec.v)
 	return pub
 }
 
-// Aggregate --
 func (sig *Sign) Aggregate(sigVec []Sign) {
 	C.blsAggregateSignature(&sig.v, &sigVec[0].v, C.mclSize(len(sigVec)))
 }
 
-// SignHashWithDomain -- duplicated for mode > 0
 func (sec *SecretKey) SignHashWithDomain(hashWithDomain []byte) (sig *Sign) {
 	if len(hashWithDomain) != 40 {
 		return nil
@@ -76,8 +65,6 @@ func (sec *SecretKey) SignHashWithDomain(hashWithDomain []byte) (sig *Sign) {
 	return nil
 }
 
-// VerifyAggregateHashWithDomain -- duplicated for mode > 0
-// hashWithDomains is array of 40 * len(pubVec)
 func (sig *Sign) VerifyAggregateHashWithDomain(pubVec []PublicKey, hashWithDomains []byte) bool {
 	if pubVec == nil {
 		return false
