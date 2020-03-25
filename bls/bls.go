@@ -51,7 +51,7 @@ import (
 	"unsafe"
 )
 
-// 10
+// 12
 
 func Init() error {
 	const BLS12_381 = 5

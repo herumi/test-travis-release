@@ -4,7 +4,6 @@
 extern "C" {
 #endif
 #include <stdlib.h>
-
 typedef size_t mclSize;
 
 int blsInit(int curve, int compiledTimeVar);
