@@ -5,6 +5,41 @@ package bls
 #cgo LDFLAGS:-lbls384_256 -lstdc++ -lm
 #cgo linux,amd64 LDFLAGS:-L${SRCDIR}/lib/linux/amd64
 #cgo darwin,amd64 LDFLAGS:-L${SRCDIR}/lib/darwin/amd64
+#include <stdint.h>
+#define MCLBN_FP_UNIT_SIZE 6
+#define MCLBN_FR_UNIT_SIZE 4
+typedef struct {
+	uint64_t d[MCLBN_FP_UNIT_SIZE];
+} mclBnFp;
+
+typedef struct {
+	mclBnFp d[2];
+} mclBnFp2;
+
+typedef struct {
+	uint64_t d[MCLBN_FR_UNIT_SIZE];
+} mclBnFr;
+
+typedef struct {
+	mclBnFp x, y, z;
+} mclBnG1;
+
+typedef struct {
+	mclBnFp2 x, y, z;
+} mclBnG2;
+
+typedef struct {
+	mclBnFr v;
+} blsSecretKey;
+
+typedef struct {
+	mclBnG1 v;
+} blsPublicKey;
+
+typedef struct {
+	mclBnG2 v;
+} blsSignature;
+
 #include <bls/bls.h>
 */
 import "C"
@@ -12,12 +47,12 @@ import (
 	"unsafe"
 )
 
-// 4
-const BLS12_381 = 5
+// 6
 
-func Init(curve int) error {
+func Init() error {
+	const BLS12_381 = 5
 	const MCLBN_COMPILED_TIME_VAR = 200 + 4 * 10 + 6
-	C.blsInit(C.int(curve), MCLBN_COMPILED_TIME_VAR)
+	C.blsInit(BLS12_381, MCLBN_COMPILED_TIME_VAR)
 	return nil
 }
 

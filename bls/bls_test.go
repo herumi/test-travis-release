@@ -30,8 +30,6 @@ func testVerifyHashDomain(t *testing.T) {
 }
 
 func Test(t *testing.T) {
-	if Init(BLS12_381) != nil {
-		t.Fatalf("Init")
-	}
+	Init()
 	testVerifyHashDomain(t)
 }

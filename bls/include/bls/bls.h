@@ -1,55 +1,8 @@
 #pragma once
-#include <stdint.h>
-#define MCLBN_FP_UNIT_SIZE 6
-#define MCLBN_FR_UNIT_SIZE 4
-
-typedef struct {
-	uint64_t d[MCLBN_FP_UNIT_SIZE];
-} mclBnFp;
-
-typedef struct {
-	mclBnFp d[2];
-} mclBnFp2;
-
-typedef struct {
-	uint64_t d[MCLBN_FR_UNIT_SIZE];
-} mclBnFr;
-
-typedef struct {
-	mclBnFp x, y, z;
-} mclBnG1;
-
-typedef struct {
-	mclBnFp2 x, y, z;
-} mclBnG2;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-typedef struct {
-	mclBnFr v;
-} blsId;
-
-typedef struct {
-	mclBnFr v;
-} blsSecretKey;
-
-typedef struct {
-#ifdef BLS_SWAP_G
-	mclBnG1 v;
-#else
-	mclBnG2 v;
-#endif
-} blsPublicKey;
-
-typedef struct {
-#ifdef BLS_SWAP_G
-	mclBnG2 v;
-#else
-	mclBnG1 v;
-#endif
-} blsSignature;
 
 typedef size_t mclSize;
 
