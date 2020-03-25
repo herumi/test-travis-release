@@ -52,7 +52,7 @@ import (
 	"unsafe"
 )
 
-// 7
+// 8
 
 func Init() error {
 	const BLS12_381 = 5
@@ -113,5 +113,5 @@ func (sig *Sign) VerifyAggregateHashWithDomain(pubVec []PublicKey, hashWithDomai
 	if n == 0 || len(hashWithDomains) != n*40 {
 		return false
 	}
-	return C.blsVerifyAggregatedHashWithDomain2(&sig.v, &pubVec[0].v, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.size_t(n)) == 1
+	return C.blsVerifyAggregatedHashWithDomain(&sig.v, &pubVec[0].v, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.size_t(n)) == 1
 }
