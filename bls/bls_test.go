@@ -5,8 +5,6 @@ import (
 )
 
 func Test(_ *testing.T) {
-	const S = 40
-	const N = 10
-	buf := make([]byte, S*N)
+	buf := make([]byte, 8)
 	BlsFunc(buf)
 }
