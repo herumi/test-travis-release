@@ -1,4 +1,4 @@
-#include <bls/bls.h>
+//#include <bls/bls.h>
 
 void blsFunc(const char buf[][8]) { }
 

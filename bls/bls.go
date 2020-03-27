@@ -1,7 +1,6 @@
 package bls
 
 /*
-#cgo CFLAGS:-I${SRCDIR}/include/
 #cgo LDFLAGS:-lbls
 #cgo linux,amd64 LDFLAGS:-L${SRCDIR}/lib/linux/amd64
 #cgo darwin,amd64 LDFLAGS:-L${SRCDIR}/lib/darwin/amd64
