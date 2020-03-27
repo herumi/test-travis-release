@@ -1,50 +1,11 @@
 package bls
 
 /*
-#cgo CFLAGS:-I${SRCDIR}./include -DBLS_ETH -DBLS_SWAP_G -I./include
-#cgo LDFLAGS:-lbls384_256 -lstdc++ -lm
+#cgo CFLAGS:-I${SRCDIR}/include/
+#cgo LDFLAGS:-lbls
 #cgo linux,amd64 LDFLAGS:-L${SRCDIR}/lib/linux/amd64
 #cgo darwin,amd64 LDFLAGS:-L${SRCDIR}/lib/darwin/amd64
-#include <stdint.h>
-#define MCLBN_FP_UNIT_SIZE 6
-#define MCLBN_FR_UNIT_SIZE 4
-typedef struct {
-	uint64_t d[MCLBN_FP_UNIT_SIZE];
-} mclBnFp;
-
-typedef struct {
-	mclBnFp d[2];
-} mclBnFp2;
-
-typedef struct {
-	uint64_t d[MCLBN_FR_UNIT_SIZE];
-} mclBnFr;
-
-typedef struct {
-	mclBnFp x, y, z;
-} mclBnG1;
-
-typedef struct {
-	mclBnFp2 x, y, z;
-} mclBnG2;
-
-typedef struct {
-	mclBnFr v;
-} blsSecretKey;
-
-typedef struct {
-	mclBnG1 v;
-} blsPublicKey;
-
-typedef struct {
-	mclBnG2 v;
-} blsSignature;
-
 #include <bls/bls.h>
-int blsVerifyAggregatedHashWithDomain2(const blsSignature *aggSig, const blsPublicKey *pubVec, const unsigned char hashWithDomain[][40], mclSize n)
-{
-	return 1;
-}
 */
 import "C"
 import (
