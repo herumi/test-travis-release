@@ -10,8 +10,11 @@ language: go
 go:
 - "1.13.4"
 
+compiler:
+- clang
+
 script:
  - go version
- - make
+ - make CC=clang
  - go test -v ./bls
  
