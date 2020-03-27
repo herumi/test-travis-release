@@ -13,8 +13,8 @@ $(TARGET): bls.o
 	mkdir -p bls/lib/$(OS)/$(ARCH)
 	ar r $@ $<
 
-bls.o: bls.c bls/include/bls/bls.h
-	$(CC) -o $@ $< -O2 -c -I ./bls/include
+bls.o: bls.c
+	$(CC) -o $@ $< -O2 -c
 
 test: $(TARGET)
 	go test -v ./bls
