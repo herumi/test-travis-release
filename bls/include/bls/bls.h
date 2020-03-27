@@ -10,6 +10,7 @@ typedef size_t mclSize;
 #include <stdint.h>
 #define MCLBN_FP_UNIT_SIZE 6
 #define MCLBN_FR_UNIT_SIZE 4
+#if 0
 typedef struct {
 	uint64_t d[MCLBN_FP_UNIT_SIZE];
 } mclBnFp;
@@ -41,8 +42,9 @@ typedef struct {
 typedef struct {
 	mclBnG2 v;
 } blsSignature;
+#endif
 
-int blsVerifyAggregatedHashWithDomain(const blsSignature *aggSig, const blsPublicKey *pubVec, const unsigned char hashWithDomain[][40], mclSize n);
+int blsVerifyAggregatedHashWithDomain(const void *aggSig, const void *pubVec, const unsigned char hashWithDomain[][40], mclSize n);
 
 #ifdef __cplusplus
 }

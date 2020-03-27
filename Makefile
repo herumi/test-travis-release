@@ -13,7 +13,7 @@ $(TARGET): bls.o
 	mkdir -p bls/lib/$(OS)/$(ARCH)
 	ar r $@ $<
 
-bls.o: bls.c
+bls.o: bls.c bls/include/bls/bls.h
 	$(CC) -o $@ $< -O2 -c -I ./bls/include
 
 test: $(TARGET)
