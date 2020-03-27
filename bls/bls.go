@@ -13,5 +13,5 @@ import (
 )
 
 func BlsFunc(buf []byte) {
-	C.blsFunc((*[40]C.uchar)(unsafe.Pointer(&buf[0])))
+	C.blsFunc((*[40]C.char)(unsafe.Pointer(&buf[0])))
 }

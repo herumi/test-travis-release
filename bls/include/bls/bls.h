@@ -1,2 +1,2 @@
-void blsFunc(const unsigned char buf[][40]);
+void blsFunc(const char buf[][40]);
 
