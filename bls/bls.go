@@ -26,12 +26,8 @@ type Sign struct {
 	v C.blsSignature
 }
 
-func (sig *Sign) VerifyAggregateHashWithDomain(pubVec []PublicKey, hashWithDomains []byte) bool {
-	n := len(pubVec)
-	return C.blsVerifyAggregatedHashWithDomain(&sig.v, &pubVec[0].v, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.mclSize(n)) == 1
-}
-
-func BlsFunc(pubVec []PublicKey, hashWithDomains []byte) bool {
-	n := len(pubVec)
-	return C.blsVerifyAggregatedHashWithDomain(nil, &pubVec[0].v, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.mclSize(n)) == 1
+func BlsFunc(_ []PublicKey, hashWithDomains []byte) bool {
+	n := len(hashWithDomains)
+	return C.blsVerifyAggregatedHashWithDomain(nil, nil, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.mclSize(n)) == 1
+//	return C.blsVerifyAggregatedHashWithDomain(nil, &pubVec[0].v, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.mclSize(n)) == 1
 }
