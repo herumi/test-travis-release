@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func testVerifyHashDomain(t *testing.T) {
+func Test(t *testing.T) {
 	const S = 40
 	const N = 10
 	pubs := make([]PublicKey, N)
@@ -13,9 +13,4 @@ func testVerifyHashDomain(t *testing.T) {
 	if !sig.VerifyAggregateHashWithDomain(pubs, hds) {
 		t.Fatalf("bad VerifyAggregateHashWithDomain")
 	}
-}
-
-func Test(t *testing.T) {
-	Init()
-	testVerifyHashDomain(t)
 }
