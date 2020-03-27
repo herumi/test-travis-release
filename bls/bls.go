@@ -14,5 +14,5 @@ import (
 
 func BlsFunc(buf []byte) bool {
 	n := 3
-	return C.blsFunc(nil, (*[40]C.uchar)(unsafe.Pointer(&buf[0])), C.size_t(n)) == 1
+	return C.blsFunc((*[40]C.uchar)(unsafe.Pointer(&buf[0])), C.size_t(n)) == 1
 }
