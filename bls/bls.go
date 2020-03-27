@@ -27,7 +27,6 @@ type Sign struct {
 }
 
 func BlsFunc(_ []PublicKey, hashWithDomains []byte) bool {
-	n := len(hashWithDomains)
+	n := 3
 	return C.blsVerifyAggregatedHashWithDomain(nil, nil, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.mclSize(n)) == 1
-//	return C.blsVerifyAggregatedHashWithDomain(nil, &pubVec[0].v, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.mclSize(n)) == 1
 }
