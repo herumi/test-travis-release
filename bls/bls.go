@@ -14,5 +14,5 @@ import (
 
 func BlsFunc(hashWithDomains []byte) bool {
 	n := 3
-	return C.blsVerifyAggregatedHashWithDomain(nil, nil, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.mclSize(n)) == 1
+	return C.blsVerifyAggregatedHashWithDomain(nil, nil, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.size_t(n)) == 1
 }
