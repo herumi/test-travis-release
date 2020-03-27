@@ -12,21 +12,7 @@ import (
 	"unsafe"
 )
 
-type SecretKey struct {
-	v C.blsSecretKey
-}
-
-type PublicKey struct {
-	v C.blsPublicKey
-}
-
-type PublicKeys []PublicKey
-
-type Sign struct {
-	v C.blsSignature
-}
-
-func BlsFunc(_ []PublicKey, hashWithDomains []byte) bool {
+func BlsFunc(hashWithDomains []byte) bool {
 	n := 3
 	return C.blsVerifyAggregatedHashWithDomain(nil, nil, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.mclSize(n)) == 1
 }
