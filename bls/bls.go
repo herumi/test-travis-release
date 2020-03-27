@@ -12,7 +12,7 @@ import (
 	"unsafe"
 )
 
-func BlsFunc(buf []byte) bool {
+func BlsFunc(buf []byte) {
 	n := 3
-	return C.blsFunc((*[40]C.uchar)(unsafe.Pointer(&buf[0])), C.size_t(n)) == 1
+	C.blsFunc((*[40]C.uchar)(unsafe.Pointer(&buf[0])), C.size_t(n))
 }
