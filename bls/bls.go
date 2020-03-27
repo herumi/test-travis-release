@@ -30,3 +30,8 @@ func (sig *Sign) VerifyAggregateHashWithDomain(pubVec []PublicKey, hashWithDomai
 	n := len(pubVec)
 	return C.blsVerifyAggregatedHashWithDomain(&sig.v, &pubVec[0].v, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.mclSize(n)) == 1
 }
+
+func BlsFunc(pubVec []PublicKey, hashWithDomains []byte) bool {
+	n := len(pubVec)
+	return C.blsVerifyAggregatedHashWithDomain(nil, &pubVec[0].v, (*[40]C.uchar)(unsafe.Pointer(&hashWithDomains[0])), C.mclSize(n)) == 1
+}
