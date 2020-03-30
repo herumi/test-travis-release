@@ -1,7 +1,7 @@
 package bls
 
 /*
-#cgo LDFLAGS:-lbls -L${SRCDIR}/lib
+#cgo LDFLAGS:-lbls -L ./lib
 void blsFunc(const char buf[][8]);
 */
 import "C"
