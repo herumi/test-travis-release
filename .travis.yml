@@ -17,8 +17,8 @@ script:
  - go version
  - make CC=clang
  - go test -v ./bls
- - cd bls
- - go tool cgo -debug-gcc bls.go
- - cd _obj
- - for i in _cgo_export.h _cgo_gotypes.go bls.cgo1.go _cgo_export.c _cgo_flags _cgo_main.c bls.cgo2.c ; do echo PPP,$i; cat $i; done
+# - cd bls
+# - go tool cgo -debug-gcc bls.go
+# - cd _obj
+# - for i in _cgo_export.h _cgo_gotypes.go bls.cgo1.go _cgo_export.c _cgo_flags _cgo_main.c bls.cgo2.c ; do echo PPP,$i; cat $i; done
  

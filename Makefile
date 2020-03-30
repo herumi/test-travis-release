@@ -7,6 +7,7 @@ ifeq ($(UNAME_S),Darwin)
   OS=darwin
 endif
 TARGET=bls/lib/$(OS)/$(ARCH)/libbls.a
+TARGET=bls/lib/libbls.a
 
 all: $(TARGET)
 $(TARGET): bls.o
