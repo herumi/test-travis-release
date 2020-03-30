@@ -1,17 +1,8 @@
-UNAME_S=$(shell uname -s)
-ARCH=amd64
-ifeq ($(UNAME_S),Linux)
-  OS=linux
-endif
-ifeq ($(UNAME_S),Darwin)
-  OS=darwin
-endif
-TARGET=bls/lib/$(OS)/$(ARCH)/libbls.a
 TARGET=bls/lib/libbls.a
 
 all: $(TARGET)
 $(TARGET): bls.o
-	mkdir -p bls/lib/$(OS)/$(ARCH)
+	mkdir -p bls/lib
 	ar r $@ $<
 
 bls.o: bls.c
