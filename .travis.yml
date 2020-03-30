@@ -17,10 +17,11 @@ script:
  - go version
  - make CC=clang
  - go test -v ./bls
- - wget https://dl.google.com/go/go1.14.1.linux-amd64.tar.gz
- - tar xvf go1.14.1.linux-amd64.tar.gz
- - go/bin/go version
- - go/bin/go test -v ./bls
+# - wget https://dl.google.com/go/go1.14.1.linux-amd64.tar.gz
+# - tar xvf go1.14.1.linux-amd64.tar.gz
+# - go/bin/go version
+# - go/bin/go test -v ./bls
+ - printenv
 # - cd bls
 # - go tool cgo -debug-gcc bls.go
 # - cat _obj/_cgo_gotypes.go
