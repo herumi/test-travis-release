@@ -1,2 +1,2 @@
-void blsFunc(const char buf[][8]) { }
+int blsFunc(const char buf[][8]) { return buf[1][0]; }
 
