@@ -1,9 +1,10 @@
 dist: xenial
 arch:
 - amd64
+- arm64
 os:
 - linux
-#- osx
+- osx
 osx_image: xcode11.3
 
 language: go
