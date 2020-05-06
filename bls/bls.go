@@ -22,10 +22,10 @@ func BlsFunc(buf []byte) int {
 		cf. https://travis-ci.org/github/herumi/test-travis-release/builds/668709471
 		bls/bls.go:13:118: cannot use _cgo0 (type *[8]_Ctype_char) as type unsafe.Pointer in argument to _Cfunc_blsFunc
 	*/
-	//	v := C.blsFunc((*[8]C.char)(unsafe.Pointer(&buf[0])))
+	v := C.blsFunc((*[8]C.char)(unsafe.Pointer(&buf[0])))
 	/*
 		Then use blsFuncWrap instead of blsFunc
 	*/
-	v := C.blsFuncWrap((*C.char)(unsafe.Pointer(&buf[0])))
+	//v := C.blsFuncWrap((*C.char)(unsafe.Pointer(&buf[0])))
 	return (int)(v)
 }
